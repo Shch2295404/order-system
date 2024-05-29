@@ -3,4 +3,96 @@ from tkinter import ttk
 import sqlite3
 
 
+# Create the database if it doesn't exist
+def create_database():
+    # Создает соединение с базой данных SQLite и таблицу, если она не существуе
+    # создает таблицу, если она не существует
+    conn = sqlite3.connect('orders.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            quantity INTEGER NOT NULL,
+            price REAL NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+
+# Add an order to the database
+def add_order(name, quantity, price):
+    # Сохраняет заказ в базе данных
+    # Параметры: name (строка), quantity (целое число), price (вещественное число)
+    # Возвращает: None
+
+    # Подключается к базе данных SQLite
+    conn = sqlite3.connect('orders.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO orders (name, quantity, price) VALUES (?, ?, ?)
+    ''', (name, quantity, price))
+    conn.commit()
+    conn.close()
+
+
+# Returns: список кортежей с информацией о заказах
+def get_orders():
+    # Возвращает список кортежей с информацией о заказах
+    conn = sqlite3.connect('orders.db')
+    # Подключается к базе данных SQLite
+    cursor = conn.cursor()
+    # Выполняет запрос к базе данных SQLite
+    cursor.execute('SELECT * FROM orders')
+    # Возвращает список кортежей с информацией о заказах
+    orders = cursor.fetchall()
+    conn.close()
+    return orders
+
+
+# Deletes an order from the database.
+def delete_order(order_id):
+    # Удаляет заказ из базы данных.
+    # Parameters: order_id (целое число)
+    # Returns: None
+    conn = sqlite3.connect('orders.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM orders WHERE id = ?', (order_id,))
+    conn.commit()
+    conn.close()
+
+
+# Updates an order in the database.
+def update_order(order_id, name, quantity, price):
+    # Обновляет заказ в базе данных.
+    conn = sqlite3.connect('orders.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE orders SET name = ?, quantity = ?, price = ?
+        WHERE id = ?
+    ''', (name, quantity, price, order_id))
+    conn.commit()
+    conn.close()
+
+
+# Main program
+def main():
+    # Creates the GUI and sets up event handlers.
+    # Создает графический интерфейс и настраивает обработчики событий.
+    create_database()
+    root = tk.Tk()
+    root.title('Order System')
+
+    # Create the main frame
+    # Создает главный фрейм
+    main_frame = ttk.Frame(root, padding="10")
+    main_frame.grid(column=0, row=0, sticky=(tk.N, tk.S, tk.E, tk.W))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+
+    # Create the order entry frame
+    # Создает фрейм для ввода заказа
+    order_entry_frame = ttk.Frame(main_frame)
+    order_entry_frame.grid(column=0, row=0, sticky=(tk.N, tk.S, tk.E, tk.W))
 
