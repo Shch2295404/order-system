@@ -17,10 +17,6 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Функция для добавления данных в таблицу
-init_db()
-view_orders()
-
 
 # Функция для добавления данных в таблицу
 # Создаём функцию добавления заказа. Здесь же устанавливаем автоматическое назначение статуса ‘Новый’.
@@ -72,5 +68,10 @@ tree = ttk.Treeview(app, columns=columns, show="headings")
 for column in columns:
  tree.heading(column, text=column)
  tree.pack()
+
+# Инициализируем базу данных
+init_db()
+# Создаём функцию для просмотра таблицы
+view_orders()
 # Чтобы посмотреть, как сейчас всё выглядит, вводим команду:
 app.mainloop()
