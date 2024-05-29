@@ -3,7 +3,7 @@ from tkinter import ttk
 import sqlite3
 
 
-# Функция для добавления данных в таблицу
+# Функция для создания таблицы
 def init_db():
     conn = sqlite3.connect('business_orders.db')
     cur = conn.cursor()
@@ -76,21 +76,3 @@ for column in columns:
  tree.pack()
 # Чтобы посмотреть, как сейчас всё выглядит, вводим команду:
 app.mainloop()
-
-# Create the database if it doesn't exis
-# Создает базу данных SQLite, если она не существует
-def create_database():
-    # Создает соединение с базой данных SQLite и таблицу, если она не существуе
-    # создает таблицу, если она не существует
-    conn = sqlite3.connect('orders.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS orders (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            quantity INTEGER NOT NULL,
-            price REAL NOT NULL
-        )
-    ''')
-    conn.commit()
-    conn.close()

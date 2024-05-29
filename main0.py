@@ -28,6 +28,7 @@ for column in columns:
 # Чтобы посмотреть, как сейчас всё выглядит, вводим команду:
 app.mainloop()
 
+
 # Create the database if it doesn't exis
 # Создает базу данных SQLite, если она не существует
 def create_database():
