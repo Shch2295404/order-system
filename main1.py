@@ -5,7 +5,7 @@ import sqlite3
 
 # Функция для создания таблицы
 def init_db():
-    conn = sqlite3.connect('business_orders.db')# Подключаемся к базе данных
+    conn = sqlite3.connect('business_orders.db') # Подключаемся к базе данных
     cur = conn.cursor()
     cur.execute("""
     CREATE TABLE IF NOT EXISTS orders (
@@ -22,13 +22,13 @@ def init_db():
 # Создаём функцию добавления заказа. Здесь же устанавливаем автоматическое назначение статуса ‘Новый’.
 def add_order():
     conn = sqlite3.connect('business_orders.db') # Подключаемся к базе данных
-    cur = conn.cursor()# Выполняем запрос
+    cur = conn.cursor() # Выполняем запрос
     cur.execute("INSERT INTO orders (customer_name, order_details, status) VALUES (?, ?, 'Новый')",
                 (customer_name_entry.get(), order_details_entry.get()))
-    conn.commit()# Сохраняем изменения
-    conn.close()# Закрываем соединение
-    customer_name_entry.delete(0, tk.END)# Очищаем поле ввода имени клиента
-    order_details_entry.delete(0, tk.END)# Очищаем поле ввода деталей заказа
+    conn.commit() # Сохраняем изменения
+    conn.close() # Закрываем соединение
+    customer_name_entry.delete(0, tk.END) # Очищаем поле ввода имени клиента
+    order_details_entry.delete(0, tk.END) # Очищаем поле ввода деталей заказа
     view_orders()
 
 
@@ -36,11 +36,11 @@ def add_order():
 # Создаём функцию для того, чтобы внесённые данные отображались в таблице в открытом окне:
 def view_orders():
     for i in tree.get_children():
-        tree.delete(i)# Очищаем таблицу
+        tree.delete(i)  # Очищаем таблицу
     conn = sqlite3.connect('business_orders.db')
-    cur = conn.cursor()# Выполняем запрос
-    cur.execute("SELECT * FROM orders")# Выбираем все данные
-    rows = cur.fetchall()# Выводим данные
+    cur = conn.cursor()  # Выполняем запрос
+    cur.execute("SELECT * FROM orders") # Выбираем все данные
+    rows = cur.fetchall() # Выводим данные
     for row in rows:
         tree.insert("", tk.END, values=row) # Заполняем таблицу
     conn.close()
