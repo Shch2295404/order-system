@@ -50,8 +50,6 @@ def view_orders():
     conn.close()
 
 
-def
-
 # Создаём окошко интерфейса
 app = tk.Tk()
 app.title("Система управления заказами")
