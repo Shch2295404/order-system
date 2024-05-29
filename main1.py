@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import sqlite3
 
 
@@ -46,14 +46,13 @@ def view_orders():
     conn.close()
 
 
-def complete_order(order_id): # Функция для завершения заказа
-    conn = sqlite3.connect('business_orders.db')
-    cur = conn.cursor()
-    cur.execute("UPDATE orders SET status = 'Выполнен' WHERE id = ?", (order_id,))
-    conn.commit()
-    conn.close()
-    view_orders()
-
+def complete_order():
+    selected_item = tree.selection()
+    if selected_item:
+       pass
+    else:
+        messagebox.showwarning("Предупреждение", "Выберите заказ для завершения")
+        return
 
 # Создаём окошко интерфейса
 app = tk.Tk()
@@ -79,6 +78,7 @@ columns = ("id", "customer_name", "order_details", "status")
 # Создаём таблицу
 tree = ttk.Treeview(app, columns=columns, show="headings")
 # Чтобы перебрать кортеж и поставить каждый его элемент в качестве кортежа, используем цикл
+
 for column in columns: #
  tree.heading(column, text=column)
  tree.pack()
