@@ -103,6 +103,15 @@ def update_order(order_id, name, quantity, price):
     conn.close()
 
 
+def complete_order(order_id): # Функция для завершения заказа
+    conn = sqlite3.connect('business_orders.db')
+    cur = conn.cursor()
+    cur.execute("UPDATE orders SET status = 'Выполнен' WHERE id = ?", (order_id,))
+    conn.commit()
+    conn.close()
+    view_orders()
+
+
 # Main program
 def main():
     # Creates the GUI and sets up event handlers.
