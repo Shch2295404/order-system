@@ -5,7 +5,7 @@ import sqlite3
 
 # Функция для создания таблицы
 def init_db():
-    conn = sqlite3.connect('business_orders.db')
+    conn = sqlite3.connect('business_orders.db')# Подключаемся к базе данных
     cur = conn.cursor()
     cur.execute("""
     CREATE TABLE IF NOT EXISTS orders (
@@ -21,14 +21,14 @@ def init_db():
 # Функция для добавления данных в таблицу
 # Создаём функцию добавления заказа. Здесь же устанавливаем автоматическое назначение статуса ‘Новый’.
 def add_order():
-    conn = sqlite3.connect('business_orders.db')
-    cur = conn.cursor()
+    conn = sqlite3.connect('business_orders.db') # Подключаемся к базе данных
+    cur = conn.cursor()# Выполняем запрос
     cur.execute("INSERT INTO orders (customer_name, order_details, status) VALUES (?, ?, 'Новый')",
                 (customer_name_entry.get(), order_details_entry.get()))
-    conn.commit()
-    conn.close()
-    customer_name_entry.delete(0, tk.END)
-    order_details_entry.delete(0, tk.END)
+    conn.commit()# Сохраняем изменения
+    conn.close()# Закрываем соединение
+    customer_name_entry.delete(0, tk.END)# Очищаем поле ввода имени клиента
+    order_details_entry.delete(0, tk.END)# Очищаем поле ввода деталей заказа
     view_orders()
 
 
@@ -36,13 +36,13 @@ def add_order():
 # Создаём функцию для того, чтобы внесённые данные отображались в таблице в открытом окне:
 def view_orders():
     for i in tree.get_children():
-        tree.delete(i)
+        tree.delete(i)# Очищаем таблицу
     conn = sqlite3.connect('business_orders.db')
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM orders")
-    rows = cur.fetchall()
+    cur = conn.cursor()# Выполняем запрос
+    cur.execute("SELECT * FROM orders")# Выбираем все данные
+    rows = cur.fetchall()# Выводим данные
     for row in rows:
-        tree.insert("", tk.END, values=row)
+        tree.insert("", tk.END, values=row) # Заполняем таблицу
     conn.close()
 
 
@@ -53,19 +53,24 @@ app.title("Система управления заказами")
 tk.Label(app, text="Имя клиента").pack()
 # Создаём поле для ввода имени клиента:
 customer_name_entry = tk.Entry(app)
+# Используем функцию pack сразу, потому что поле не нужно сохранять в переменную.
 customer_name_entry.pack()
 # Создаём такие же поля для деталей заказа:
 tk.Label(app, text="Детали заказа").pack()
+# Создаём поле для ввода деталей заказа:
 order_details_entry = tk.Entry(app)
+# Используем функцию pack сразу, потому что поле не нужно сохранять в переменную.
 order_details_entry.pack()
 # Создаём кнопку, которая будет добавлять введённые данные в таблицу:
 add_button = tk.Button(app, text="Добавить заказ", command=add_order)
+# Используем функцию pack сразу, потому что кнопка не нужно сохранять в переменную.
 add_button.pack()
 # Используем новую функцию, чтобы создать таблицу из колонок, которые в ней размещены:
 columns = ("id", "customer_name", "order_details", "status")
+# Создаём таблицу
 tree = ttk.Treeview(app, columns=columns, show="headings")
 # Чтобы перебрать кортеж и поставить каждый его элемент в качестве кортежа, используем цикл
-for column in columns:
+for column in columns: #
  tree.heading(column, text=column)
  tree.pack()
 
