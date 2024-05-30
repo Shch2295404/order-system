@@ -12,7 +12,7 @@ def init_db():
     id INTEGER PRIMARY KEY,
     customer_name TEXT NOT NULL,
     order_details TEXT NOT NULL,
-    status TEXT NOT NULL)
+    status TEXT DEFAULT 'Новый')
     """)
     conn.commit()
     conn.close()
@@ -49,7 +49,13 @@ def view_orders():
 def complete_order():
     selected_item = tree.selection()
     if selected_item:
-       pass
+        order_id = tree.item(selected_item[0], "values")[0]
+        conn = sqlite3.connect('business_orders.db')
+        cur = conn.cursor()
+        cur.execute("UPDATE orders SET status = 'Завершен' WHERE id = ?", (order_id,))
+        conn.commit()
+        conn.close()
+        view_orders()
     else:
         messagebox.showwarning("Предупреждение", "Выберите заказ для завершения")
         return
