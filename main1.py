@@ -64,6 +64,7 @@ def complete_order():
 # Создаём окошко интерфейса
 app = tk.Tk()
 app.title("Система управления заказами")
+# app.positionfromcenterx(app.winfo_screenwidth() / 2)
 # Добавляем надписи, которые будут появляться в окошке.
 # Используем функцию pack сразу, потому что надпись не нужно сохранять в переменную.
 tk.Label(app, text="Имя клиента").pack()
@@ -86,7 +87,6 @@ add_button.pack()
 # Запускаем функцию завершения заказа
 complete_button = tk.Button(app, text="Завершить заказ", command=complete_order)
 complete_button.pack()
-
 
 # Используем новую функцию, чтобы создать таблицу из колонок, которые в ней размещены:
 columns = ("id", "customer_name", "order_details", "status")
