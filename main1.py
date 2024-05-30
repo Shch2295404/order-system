@@ -83,8 +83,10 @@ order_details_entry.pack()
 add_button = tk.Button(app, text="Добавить заказ", command=add_order)
 add_button.pack()
 
-complete_order() # Запускаем функцию завершения заказа
-add_button.pack()
+# Запускаем функцию завершения заказа
+complete_button = tk.Button(app, text="Завершить заказ", command=complete_order)
+complete_button.pack()
+
 
 # Используем новую функцию, чтобы создать таблицу из колонок, которые в ней размещены:
 columns = ("id", "customer_name", "order_details", "status")
